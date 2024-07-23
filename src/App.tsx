@@ -1,17 +1,25 @@
 import React, { useState } from "react";
 import "./App.css";
-import HexToRGB from "./components/convert";
 
 function App() {
   const [name, setName] = useState("");
   const [color, setColor] = useState("вид RGP");
   const [backColor, setBackColor] = useState("#D9D9D9");
 
+  const HexToRGB = (hex: string) => {
+    if (hex === "") return "";
+
+    const r = parseInt(hex.slice(1, 3), 16),
+      g = parseInt(hex.slice(3, 5), 16),
+      b = parseInt(hex.slice(5, 7), 16);
+
+    return "rgb(" + r + ", " + g + ", " + b + ")";
+  };
+
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const el: HTMLInputElement = e.currentTarget;
     setName(el.value);
-    console.log(el.value.length);
-    if (el.value.length > 6) {
+    if (el.value.length >= 7) {
       const colorHex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
         el.value
       );
@@ -21,8 +29,8 @@ function App() {
         setName("");
       } else {
         setColor(HexToRGB(name.toUpperCase()));
-        setBackColor(HexToRGB(name));
-        console.log(HexToRGB(name));
+        setBackColor(HexToRGB(el.value));
+        console.log(HexToRGB(el.value));
       }
     }
   };
